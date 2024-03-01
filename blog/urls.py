@@ -8,7 +8,7 @@ urlpatterns = [
     path('<int:year>/<int:month>/<int:day>/<slug:post>/'
                     ,views.post_detail,name='post_detail'),
     
-    #path('posts/',views.ListPostView.as_view())
+    path('posts/',views.ListPostView.as_view())
 
 ]
 

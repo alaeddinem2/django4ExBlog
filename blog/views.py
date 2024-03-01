@@ -29,3 +29,14 @@ def post_detail(request,year,month,day,post):
 
 #CLASS BASED VIEW
 
+class ListPostView(ListView):
+    model = Post
+    context_object_name = "posts"
+    template_name = 'blog/post/post_list.html'
+    paginate_by = 3
+    page_kwarg = 'my_page'  # Use 'my_page' as the query parameter for the page number
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = context['page_obj']
+        return context
