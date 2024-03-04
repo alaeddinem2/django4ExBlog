@@ -4,6 +4,7 @@ from django.views.generic import ListView
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
 from django.conf import settings
+from django.db.models import Count
 from taggit.models import Tag
 from .models import Post,Comment
 from .forms import EmailPostform,CommentForm
@@ -37,9 +38,17 @@ def post_detail(request,year,month,day,post):
                              publish__day = day)
     comments = post.comments.filter(active = True)
     form = CommentForm()
+
+    post_tags_ids = post.tags.values_list('id',flat=True)
+    similar_posts = Post.published.filter(tags__in=post_tags_ids).exclude(id=post.id)
+    similar_posts = similar_posts.annotate(same_tags=Count('tags')
+                                           ).order_by('-same_tags','-publish')[:4]
+
+
     return render(request,'blog/post/post_detail.html',{'post':post,
                                                         'comments': comments,
-                                                        'form': form})
+                                                        'form': form,
+                                                        'similar_posts': similar_posts})
 
 
 def post_share(request,post_id):
