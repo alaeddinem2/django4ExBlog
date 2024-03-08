@@ -9,7 +9,8 @@ from taggit.managers import TaggableManager
 
 class PublishedManger(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(status = Post.Status.PUBLISHED)
+        return super().get_queryset().filter(status=Post.Status.PUBLISHED)
+
 
 class Post(models.Model):
 
@@ -19,15 +20,16 @@ class Post(models.Model):
 
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
-    author = models.ForeignKey(User,on_delete = models.CASCADE, related_name = 'author_posts')
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                               related_name='author_posts')
     body = models.TextField(max_length=10000)
     tags = TaggableManager()
-    publish = models.DateTimeField(default= timezone.now)
-    created = models.DateTimeField(auto_now_add = True)
-    updated = models.DateTimeField(auto_now_add = True)
+    publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=2,
                               choices=Status.choices,
-                              default=Status.DRAFT)
+                              default=Status.PUBLISHED)
 
     objects = models.Manager()
     published = PublishedManger()
@@ -37,20 +39,20 @@ class Post(models.Model):
         indexes = [
             models.Index(fields=["-publish"])
         ]
-        
+
     def __str__(self) -> str:
         return self.title
-    
+
     def get_absolute_url(self):
         return reverse('blog:post_detail', args=[self.publish.year,
-                                                self.publish.month,
-                                                self.publish.day,
-                                                self.slug])
-    
+                                                 self.publish.month,
+                                                 self.publish.day,
+                                                 self.slug])
+
 
 class Comment(models.Model):
 
-    post = models.ForeignKey(Post,on_delete=models.CASCADE,
+    post = models.ForeignKey(Post, on_delete=models.CASCADE,
                              related_name='comments')
     name = models.CharField(max_length=80)
     email = models.EmailField()
@@ -62,7 +64,7 @@ class Comment(models.Model):
     class Meta:
         ordering = ['created']
         indexes = [
-        models.Index(fields=['created']),
+            models.Index(fields=['created']),
         ]
 
     def __str__(self):

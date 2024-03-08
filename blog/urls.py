@@ -13,6 +13,7 @@ urlpatterns = [
                     ,views.post_detail,name='post_detail'),
     path('<int:post_id>/post_share',views.post_share, name="post_share"),
     path('<int:post_id>/comments',views.post_comment, name="post_comment"),
+    path('search/', views.post_search, name='post_search'),
     
     path('posts/',views.ListPostView.as_view())
 

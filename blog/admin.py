@@ -7,7 +7,7 @@ from .models import Post,Comment
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['title','author','status','publish','created','updated']
+    list_display = ['title','author','status','publish','created','slug']
     list_filter =  ['author','status']
     prepopulated_fields = {'slug':('title',)}
     #raw_id_fields = ['author']
