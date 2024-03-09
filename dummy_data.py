@@ -13,7 +13,7 @@ from faker import Faker
 
 def seed_Post(n):
     fake = Faker()
-    author_list = [1, 2, 3, 4, 5, 6, 7]
+    author_list = [1, 2, 3, 4, 5, 6]
     flags_list = ['python', 'music', 'developement',
                   'life', 'homepage', 'travel']
 
@@ -29,14 +29,14 @@ def seed_Post(n):
             title=fake.text(max_nb_chars=30),
             author=author,
             body=fake.text(max_nb_chars=700),
-            tags=flags_list[random.randint(0, len(flags_list)-1)]
+            #tags=flags_list[random.randint(0, len(flags_list)-1)]
         )
 
     print(f'Seeded {n} posts')
 
 
 # Example usage: seed 10 posts
-#seed_Post(30)
+#seed_Post(35)
 
 def seed_comments(n):
     fake = Faker()
@@ -50,12 +50,12 @@ def seed_comments(n):
 
         # Create a new Post instance with the author
         Comment.objects.create(
-            post=Post.objects.get(id=random.randint(1,47)),
-            name=User.objects.get(id=random.randint(1,7)),
+            post=Post.objects.get(id=random.randint(1,42)),
+            name=User.objects.get(id=random.randint(1,6)),
             body=fake.text(max_nb_chars=50),
             
         )
 
     print(f'Seeded {n} Comments')
 
-#seed_comments(100)
+seed_comments(100)

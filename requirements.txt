@@ -1,4 +1,10 @@
 asgiref==3.7.2
 Django==4.2.9
+django-taggit==5.0.1
+Faker==24.1.0
+Markdown==3.5.2
+psycopg2==2.9.9
+python-dateutil==2.9.0.post0
+six==1.16.0
 sqlparse==0.4.4
 typing_extensions==4.9.0
